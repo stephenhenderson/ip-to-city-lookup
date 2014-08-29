@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% block body %}{% endblock %}
+
+<form method="GET">
+    <fieldset>
+        <label>ISO Country Code</label>
+        <input type="text" name="country_code" />
+        <br/>
+        <label>City Name</label>
+        <input type="text" name="city_name" />
+        <p/>
+        <input type="submit" value="lookup" />
+    </fieldset>
+
+</form>
+</body>
+</html>
