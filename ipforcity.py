@@ -24,11 +24,15 @@ def build_city_to_ip_map(city_file, ip_file):
     :return: dict of city-key to ipaddress
     """
 
-    city_to_ip_address = dict()
-    city_to_ip_range = build_city_to_ip_range_id_map(city_file)
-
+    # maxmind city_file contains mappings of city locations to an ip-range id.
+    # The ip_file contain mappings of ip-range ids to actual ip ranges.
+    #
     # See schema for ip-file here:
     # http://dev.maxmind.com/geoip/geoip2/geoip2-csv-databases/#Blocks_File
+
+    city_to_ip_address = dict()
+    ip_range_id_to_city = build_ip_range_id_to_city_map(city_file)
+
     ip_v4_prefix = "::ffff:"
     ip_v4_prefix_len = len(ip_v4_prefix)
 
@@ -38,14 +42,14 @@ def build_city_to_ip_map(city_file, ip_file):
             fields = line.split(",")
             ip_address = fields[0][ip_v4_prefix_len:]
             ip_range_id = fields[2]
-            city_key = city_to_ip_range.get(ip_range_id, None)
+            city_key = ip_range_id_to_city.get(ip_range_id, None)
             if not city_key is None:
                 city_to_ip_address[city_key] = ip_address
     print("Built map of {} city to ip-address entries".format(str(len(city_to_ip_address))))
     return city_to_ip_address
 
 
-def build_city_to_ip_range_id_map(city_file):
+def build_ip_range_id_to_city_map(city_file):
     print("Extracting ip-ranges for cities from {}".format(city_file.name))
     city_to_ip_range = dict()
     first_line = True
