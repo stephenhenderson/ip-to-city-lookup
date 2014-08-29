@@ -5,16 +5,6 @@ from ipforcity import *
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-app.config.from_object(__name__)
-
-# Load default config and override config from an environment variable
-app.config.update(dict(
-    DEBUG=True,
-    SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default'
-))
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 @app.route('/')
 def ip_for_city_lookup():
